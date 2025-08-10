@@ -1,20 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="24dp" android:orientation="vertical"
-    android:gravity="center" android:layout_width="match_parent" android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
 
-    <EditText
-        android:id="@+id/etEmail" android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/cremita"
+        android:padding="24dp">
 
-    <EditText
-        android:id="@+id/etPassword" android:hint="Contraseña"
-        android:inputType="textPassword" android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"/>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bienvenido a"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"/>
 
-    <Button
-        android:id="@+id/btnLogin" android:text="Entrar"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"/>
-</LinearLayout>
+        <ImageView
+            android:id="@+id/imageButton2"
+            android:layout_width="match_parent"
+            android:layout_height="167dp"
+            android:layout_marginTop="14dp"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_dogs"/>
+
+        <ImageView
+            android:id="@+id/imageButton3"
+            android:layout_width="match_parent"
+            android:layout_height="245dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_image_dogs"/>
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/edittext_border_red"
+            android:textColor="#666666"
+            android:textColorHint="#9E9E9E"
+            android:hint="Email"
+            android:inputType="textEmailAddress"/>
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/edittext_border_red"
+            android:textColor="#666666"
+            android:textColorHint="#9E9E9E"
+            android:hint="Contraseña"
+            android:inputType="textPassword"/>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etPassword"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/btn_gray_solid"
+            android:backgroundTint="@null"
+            app:backgroundTint="@null"
+            android:textColor="#FFFFFF"
+            android:text="Entrar"/>
+    </LinearLayout>
+</ScrollView>

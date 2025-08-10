@@ -20,6 +20,7 @@
         <!-- Tiene MAIN/LAUNCHER, por eso debe ir exported=true -->
         <activity
             android:name=".ui.LoginActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
