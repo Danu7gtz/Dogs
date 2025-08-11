@@ -49,4 +49,5 @@ interface AppointmentService {
     // DELETE /citas-delete/{id}
     @DELETE("api/citas-delete/{id}")
     suspend fun deleteAppointment(@Path("id") id: String): Response<Unit>
+
 }

@@ -1,7 +1,10 @@
 package com.example.dogs.ui
 
+import android.Manifest
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -11,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dogs.R
 import com.example.dogs.databinding.ActivityAgendaBinding
 import com.example.dogs.domain.Appointment
+import com.example.dogs.notifications.NotificationUtils
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -23,10 +27,23 @@ class AgendaActivity : AppCompatActivity() {
     private lateinit var adapter: AppointmentAdapter
     private val fmtDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vb = ActivityAgendaBinding.inflate(layoutInflater)
         setContentView(vb.root)
+
+        // AgendaActivity.kt (onCreate)
+        NotificationUtils.createChannel(this)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                !=
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1001)
+            }
+        }
 
         // Recycler + Adapter (DOMINIO)
         adapter = AppointmentAdapter(

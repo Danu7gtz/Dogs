@@ -22,10 +22,24 @@ class AppointmentRepository(context: Context) {
         _data.postValue(list)
     }
 
+    // AppointmentRepository.kt
     suspend fun add(a: Appointment): Result<Appointment> = runCatching {
         val resp = api.createAppointment(a.toBody())
-        if (!resp.isSuccessful) error("HTTP ${resp.code()} ${resp.message()} ${resp.errorBody()?.string().orEmpty()}")
-        val created = resp.body()!!.toDomain()
+        if (!resp.isSuccessful) {
+            error("HTTP ${resp.code()} ${resp.message()} ${resp.errorBody()?.string().orEmpty()}")
+        }
+
+        // Mapeo defensivo: si el body es nulo o toDomain() revienta, usa 'a'
+        val created = resp.body()?.let { body ->
+            try {
+                body.toDomain()
+            } catch (e: Throwable) {
+                // Log para ver exactamente qué campo está rompiendo
+                android.util.Log.e("API_MAPPER", "Fallo en toDomain() (add): ${e.message}", e)
+                a
+            }
+        } ?: a
+
         _data.postValue((_data.value.orEmpty() + created).sortedBy { it.start })
         created
     }
