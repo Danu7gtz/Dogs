@@ -24,15 +24,21 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
-class AgendaActivity : AppCompatActivity() {
+import android.widget.CalendarView
+import androidx.core.view.isVisible
+import androidx.core.os.bundleOf
+
+
+
+
+class AgendaActivity : BaseAgendaActivity() {
 
     private lateinit var vb: ActivityAgendaBinding
-    private val vm: AgendaViewModel by viewModels()
-
     private lateinit var adapter: AppointmentAdapter
-    private val fmtDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-    private val zoneMx = ZoneId.of("America/Mexico_City")
 
+    // Rango del día seleccionado (en millis, hora local)
+    private var selectedStartMillis: Long = 0L
+    private var selectedEndMillis: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +47,9 @@ class AgendaActivity : AppCompatActivity() {
 
         NotificationUtils.createChannel(this)
 
+        // RecyclerView
         adapter = AppointmentAdapter(
-            onEdit = { editAppointment(it) },
+            onEdit = { editAppointment(it, selectedStartMillis) },
             onDelete = { vm.delete(it.id) },
             onCall = { a ->
                 val i = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${a.phone}"))
@@ -55,90 +62,83 @@ class AgendaActivity : AppCompatActivity() {
             DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         )
 
-        vm.appointments.observe(this) { list ->
-            val now = Instant.now()
-            val sorted = list.sortedWith(
-                compareBy<com.example.dogs.domain.Appointment> { it.end.atZone(zoneMx).toInstant().isBefore(now) } // false (próximas) antes que true
-                    .thenBy { it.start }
-            )
-            adapter.submitList(sorted)
+        // CalendarView
+        vb.calendarView?.let { calView ->
+            setSelectedDayBounds(calView.date)
+            calView.setOnDateChangeListener { _: CalendarView, y: Int, m: Int, d: Int ->
+                val c = Calendar.getInstance().apply {
+                    set(Calendar.YEAR, y)
+                    set(Calendar.MONTH, m)
+                    set(Calendar.DAY_OF_MONTH, d)
+                    set(Calendar.HOUR_OF_DAY, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                }
+                setSelectedDayBounds(c.timeInMillis)
+                vm.appointments.value?.let { updateListForSelectedDay(it) }
 
+                // 👉 abrir detalle como Activity separada
+                openDayActivity(c.timeInMillis)
+            }
         }
 
+        vm.appointments.observe(this) { list -> updateListForSelectedDay(list) }
         vm.init()
 
-        vb.btnAdd.setOnClickListener { createOrEditDialog() }
+        vb.btnAdd.setOnClickListener { createOrEditDialog(defaultDayStartMillis = selectedStartMillis) }
     }
 
-    private fun editAppointment(a: Appointment) = createOrEditDialog(a)
-
-    private fun createOrEditDialog(existing: Appointment? = null) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_appointment, null)
-        val etClient = dialogView.findViewById<android.widget.EditText>(R.id.etClient)
-        val etAddress = dialogView.findViewById<android.widget.EditText>(R.id.etAddress)
-        val etPhone = dialogView.findViewById<android.widget.EditText>(R.id.etPhone)
-        val btnStart = dialogView.findViewById<android.widget.Button>(R.id.btnStart)
-        val btnEnd = dialogView.findViewById<android.widget.Button>(R.id.btnEnd)
-        val etNotes = dialogView.findViewById<android.widget.EditText>(R.id.etNotes)
-
-        var start: LocalDateTime? = existing?.start
-        var end: LocalDateTime? = existing?.end
-
-        fun pickDateTime(onPicked: (LocalDateTime) -> Unit) {
-            val cal = Calendar.getInstance()
-            DatePickerDialog(this, { _, y, m, d ->
-                TimePickerDialog(this, { _, hh, mm ->
-                    onPicked(LocalDateTime.of(y, m + 1, d, hh, mm))
-                }, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
-            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+    private fun updateListForSelectedDay(list: List<Appointment>) {
+        val dayList = list.filter { ap ->
+            val apStart = ap.start.atZone(zoneMx).toInstant().toEpochMilli()
+            val apEnd = ap.end.atZone(zoneMx).toInstant().toEpochMilli()
+            (apStart in selectedStartMillis until selectedEndMillis) ||
+                    (apEnd in selectedStartMillis until selectedEndMillis) ||
+                    (apStart <= selectedStartMillis && apEnd >= selectedEndMillis)
         }
 
-        btnStart.text = start?.format(fmtDate) ?: "Elegir inicio"
-        btnEnd.text = end?.format(fmtDate) ?: "Elegir fin"
+        val now = Instant.now()
+        val sorted = dayList.sortedWith(
+            compareBy<Appointment> {
+                it.end.atZone(zoneMx).toInstant().isBefore(now)
+            }.thenBy { it.start }
+        )
+        adapter.submitList(sorted)
+    }
 
-        btnStart.setOnClickListener {
-            pickDateTime { dt -> start = dt; btnStart.text = dt.format(fmtDate) }
+    private fun setSelectedDayBounds(dayMillis: Long) {
+        val cal = Calendar.getInstance().apply {
+            timeInMillis = dayMillis
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
         }
-        btnEnd.setOnClickListener {
-            pickDateTime { dt -> end = dt; btnEnd.text = dt.format(fmtDate) }
+        selectedStartMillis = cal.timeInMillis
+        cal.add(Calendar.DAY_OF_MONTH, 1)
+        selectedEndMillis = cal.timeInMillis
+    }
+
+    private fun openDayActivity(dayStartMillis: Long) {
+        val c = Calendar.getInstance().apply {
+            timeInMillis = dayStartMillis
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
         }
+        val start = c.timeInMillis
+        c.add(Calendar.DAY_OF_MONTH, 1)
+        val end = c.timeInMillis
 
-        existing?.let {
-            etClient.setText(it.clientName)
-            etAddress.setText(it.address)
-            etPhone.setText(it.phone)
-            etNotes.setText(it.notes)
+        val i = Intent(this, DayDetailActivity::class.java).apply {
+            putExtra("dayStart", start)
+            putExtra("dayEnd", end)
         }
-
-        AlertDialog.Builder(this)
-            .setTitle(if (existing == null) "Nueva cita" else "Editar cita")
-            .setView(dialogView)
-            .setPositiveButton("Guardar") { d, _ ->
-                val client = etClient.text.toString().trim()
-                val address = etAddress.text.toString().trim()
-                val phone = etPhone.text.toString().trim()
-                val notes = etNotes.text.toString().trim()
-                if (client.isEmpty() || address.isEmpty() ||  phone.isEmpty() ||  start == null ||  end == null) {
-                Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show()
-                return@setPositiveButton
-            }
-                if (!end!!.isAfter(start)) {
-                    Toast.makeText(this, "Fin debe ser después de inicio", Toast.LENGTH_SHORT).show()
-                    return@setPositiveButton
-                }
-
-                val appt = if (existing == null) {
-                    Appointment(clientName = client, address = address, phone = phone,
-                        start = start!!, end = end!!, notes = notes)
-                } else {
-                    existing.copy(clientName = client, address = address, phone = phone,
-                        start = start!!, end = end!!, notes = notes)
-                }
-
-                if (existing == null) vm.add(appt) else vm.update(appt)
-                d.dismiss()
-            }
-            .setNegativeButton("Cancelar") { d, _ -> d.dismiss() }
-            .show()
+        startActivity(i)
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.fade_out)
     }
 }
+
+

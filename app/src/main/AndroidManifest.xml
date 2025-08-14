@@ -14,6 +14,16 @@
 
         <!-- No tiene intent-filters, puede ir exported=false (o simplemente omitirlo) -->
         <activity
+            android:name=".ui.DayDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.AgendaActivity">
+            <!-- Para que el botón Up funcione en APIs viejas -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.AgendaActivity" />
+        </activity>
+
+        <activity
             android:name=".ui.AgendaActivity"
             android:exported="false" />
 

@@ -19,4 +19,10 @@
     <color name="ui_chip_black">#1A1A1A</color>
     <color name="ui_field_fill">#26FFFFFF</color> <!-- blanco con 15% de opacidad -->
     <color name="ui_yellow">#FFEB3B</color>
+    <color name="calendar_card_bg">#FFFFFFFF</color>      <!-- fondo tarjeta -->
+    <color name="calendar_bg">#FFF5F5F5</color>           <!-- fondo interno -->
+    <color name="calendar_text_primary">#FF000000</color> <!-- fechas actuales -->
+    <color name="calendar_text_secondary">#99000000</color> <!-- fuera de mes / semana -->
+    <color name="calendar_selected_bg">#22E53935</color>  <!-- selección suave -->
+    <color name="calendar_stroke">#22000000</color>       <!-- borde -->
 </resources>

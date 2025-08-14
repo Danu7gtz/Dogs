@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="calendar_card_bg">#FF1E1E1E</color>
+    <color name="calendar_bg">#FF121212</color>
+    <color name="calendar_text_primary">#FFFFFFFF</color>
+    <color name="calendar_text_secondary">#B3FFFFFF</color>
+    <color name="calendar_selected_bg">#33E53935</color>
+    <color name="calendar_stroke">#33FFFFFF</color>
+</resources>
