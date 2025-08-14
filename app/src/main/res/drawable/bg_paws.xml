@@ -11,7 +11,6 @@
     <!-- patrón de huellas repetido -->
     <item>
         <bitmap
-            android:src="@drawable/paw_tile"
             android:tileMode="repeat"
             android:gravity="fill"/>
     </item>

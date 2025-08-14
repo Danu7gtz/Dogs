@@ -1,79 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fillViewport="true">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <!-- Fondo fijo (no intercepta eventos) -->
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/cremita"
-        android:padding="24dp">
+        android:layout_height="match_parent"
+        android:src="@drawable/fondo_dogs"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/app_name"
+        android:clickable="false"
+        android:focusable="false" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bienvenido a"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"/>
+    <!-- ÚNICO scroll que envuelve logo + formulario -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="32dp"
+        android:overScrollMode="always">
 
-        <ImageView
-            android:id="@+id/imageButton2"
-            android:layout_width="match_parent"
-            android:layout_height="167dp"
-            android:layout_marginTop="14dp"
-            android:contentDescription="@string/app_name"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:src="@drawable/logo_dogs"/>
-
-        <ImageView
-            android:id="@+id/imageButton3"
-            android:layout_width="match_parent"
-            android:layout_height="245dp"
-            android:layout_marginTop="8dp"
-            android:contentDescription="@string/app_name"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:src="@drawable/logo_image_dogs"/>
-
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/edittext_border_red"
-            android:textColor="#666666"
-            android:textColorHint="#9E9E9E"
-            android:hint="Email"
-            android:inputType="textEmailAddress"/>
-
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/edittext_border_red"
-            android:textColor="#666666"
-            android:textColorHint="#9E9E9E"
-            android:hint="Contraseña"
-            android:inputType="textPassword"/>
-
-        <Button
-            android:id="@+id/btnLogin"
+        <!-- Hijo único del scroll -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/etPassword"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/btn_gray_solid"
-            android:backgroundTint="@null"
-            app:backgroundTint="@null"
-            android:textColor="#FFFFFF"
-            android:text="Entrar"/>
-    </LinearLayout>
-</ScrollView>
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="24dp">
+
+            <!-- Logo -->
+            <ImageView
+                android:id="@+id/imgLogo"
+                android:layout_width="300dp"
+                android:layout_height="280dp"
+                android:src="@drawable/logo_perros"
+                android:contentDescription="@string/app_name"
+                android:layout_marginBottom="24dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true" />
+
+            <!-- Campos -->
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_input_gray_rounded"
+                android:hint="Correo electrónico"
+                android:inputType="textEmailAddress"
+                android:textColor="#000000"
+                android:textColorHint="#66000000"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_input_gray_rounded"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:textColor="#000000"
+                android:textColorHint="#66000000"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <!-- Botón -->
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:text="Entrar"
+                android:textAllCaps="false"
+                android:textColor="#000000"
+                android:background="@drawable/bg_button_white_rounded"
+                android:backgroundTint="@null" />
+
+            <!-- Espacio inferior para teclado -->
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="24dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

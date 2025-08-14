@@ -30,12 +30,10 @@ class AppointmentRepository(context: Context) {
             error("HTTP ${resp.code()} ${resp.message()} ${resp.errorBody()?.string().orEmpty()}")
         }
 
-        // Mapeo defensivo: si el body es nulo o toDomain() revienta, usa 'a'
         val created = resp.body()?.let { body ->
             try {
                 body.toDomain()
             } catch (e: Throwable) {
-                // Log para ver exactamente qué campo está rompiendo
                 android.util.Log.e("API_MAPPER", "Fallo en toDomain() (add): ${e.message}", e)
                 a
             }

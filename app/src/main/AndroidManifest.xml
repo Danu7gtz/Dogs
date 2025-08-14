@@ -8,7 +8,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_notification"
+        android:icon="@drawable/logo_dog_two"
         android:label="@string/app_name"
         android:theme="@style/Theme.Dogs">
 
@@ -20,7 +20,7 @@
         <!-- Tiene MAIN/LAUNCHER, por eso debe ir exported=true -->
         <activity
             android:name=".ui.LoginActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:windowSoftInputMode="stateUnchanged|adjustResize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

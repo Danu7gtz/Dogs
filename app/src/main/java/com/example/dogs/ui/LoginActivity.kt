@@ -5,10 +5,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.example.dogs.data.TokenProvider
@@ -25,16 +29,35 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
+        vb = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(vb.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(vb.scrollLogin) { v, insets ->
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val base =  v.paddingBottom
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, maxOf(base, ime.bottom))
+            insets
+        }
+
+        vb.etEmail.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) vb.scrollLogin.post { vb.scrollLogin.smoothScrollTo(0, vb.etEmail.top) }
+        }
+        vb.etPassword.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) vb.scrollLogin.post { vb.scrollLogin.smoothScrollTo(0, vb.etPassword.top) }
+        }
+
+
         vb = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(vb.root)
 
         vm = ViewModelProvider(this)[LoginViewModel::class.java]
 
-        // Permisos de notificación (opcional) y canal
-        // NotificationUtils.createChannel(this)
         askNotificationPermissionIfNeeded()
 
-        // Observa el estado del login (MVVM)
         vm.state.observe(this) { st ->
             when (st) {
                 is LoginState.Idle -> { /* UI idle */ }
@@ -54,15 +77,11 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // Observa request/response como textos (para que los veas en UI o Logcat)
         NetworkEvents.lastRequest.observe(this) { req ->
             android.util.Log.d("NET_REQ", req)
-            // Si quieres, muestra en un TextView de debug:
-            // vb.tvDebugRequest.text = req
         }
         NetworkEvents.lastResponse.observe(this) { res ->
             android.util.Log.d("NET_RES", res)
-            // vb.tvDebugResponse.text = res
         }
 
         vb.btnLogin.setOnClickListener {

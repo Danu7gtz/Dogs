@@ -1,57 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/item_card_background"
-    android:layout_marginBottom="12dp">
+    android:layout_marginHorizontal="6dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardUseCompatPadding="true">
 
-    <TextView
-        android:id="@+id/tvClient"
-        android:textStyle="bold"
-        android:text="Cliente"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#212121"/>
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvTime"
-        android:text="Fecha/Hora"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#616161"/>
+        <!-- Línea superior: Cliente • Mascota + pill de estado -->
+        <TextView
+            android:id="@+id/tvClienteMascota"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvStatus"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/tvAddress"
-        android:text="Dirección"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#616161"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
-
-        <Button
-            android:id="@+id/btnEdit"
-            android:text="Editar"
+        <TextView
+            android:id="@+id/tvStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#D32F2F"
-            android:backgroundTint="@null"
-            app:backgroundTint="@null"/>
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/bg_status_pill"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <Button
-            android:id="@+id/btnDelete"
-            android:text="Borrar"
+        <!-- Fecha y rango -->
+        <TextView
+            android:id="@+id/tvFechaRango"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/tvClienteMascota"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Dirección -->
+        <TextView
+            android:id="@+id/tvDireccion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="13sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:layout_constraintTop_toBottomOf="@id/tvFechaRango"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Acciones: Llamar | Editar | Borrar -->
+        <LinearLayout
+            android:id="@+id/llActions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:background="#D32F2F"
-            android:backgroundTint="@null"
-            app:backgroundTint="@null"/>
-    </LinearLayout>
-</LinearLayout>
+            android:layout_marginTop="10dp"
+            android:gravity="end"
+            app:layout_constraintTop_toBottomOf="@id/tvDireccion"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageButton
+                android:id="@+id/btnCall"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="llamar"
+                app:srcCompat="@android:drawable/ic_menu_call"/>
+
+            <ImageButton
+                android:id="@+id/btnEdit"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="edit"
+                app:srcCompat="@android:drawable/ic_menu_edit"/>
+
+            <ImageButton
+                android:id="@+id/btnDelete"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="borrar"
+                app:srcCompat="@android:drawable/ic_menu_delete"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

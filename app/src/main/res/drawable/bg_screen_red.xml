@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- rojo degradado -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="@color/ui_red_dark"
+                android:endColor="@color/ui_red"
+                android:angle="90" />
+        </shape>
+    </item>
+
+    <!-- patrón de huellas con baja opacidad -->
+    <!-- Si NO tienes un patrón, borra este item -->
+    <item>
+        <bitmap
+            android:src="@drawable/fondo_dogs"
+            android:tileMode="repeat"
+            android:alpha="0.08" />
+    </item>
+</layer-list>

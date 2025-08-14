@@ -3,19 +3,24 @@ package com.example.dogs.ui
 import android.Manifest
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dogs.R
 import com.example.dogs.databinding.ActivityAgendaBinding
 import com.example.dogs.domain.Appointment
 import com.example.dogs.notifications.NotificationUtils
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
@@ -26,6 +31,7 @@ class AgendaActivity : AppCompatActivity() {
 
     private lateinit var adapter: AppointmentAdapter
     private val fmtDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    private val zoneMx = ZoneId.of("America/Mexico_City")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,36 +39,34 @@ class AgendaActivity : AppCompatActivity() {
         vb = ActivityAgendaBinding.inflate(layoutInflater)
         setContentView(vb.root)
 
-        // AgendaActivity.kt (onCreate)
         NotificationUtils.createChannel(this)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
-                !=
-                PackageManager.PERMISSION_GRANTED
-            ) {
-                requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1001)
-            }
-        }
-
-        // Recycler + Adapter (DOMINIO)
         adapter = AppointmentAdapter(
-            items = emptyList(),
             onEdit = { editAppointment(it) },
-            onDelete = { vm.delete(it.id) }
+            onDelete = { vm.delete(it.id) },
+            onCall = { a ->
+                val i = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${a.phone}"))
+                startActivity(i)
+            }
         )
         vb.rvAppointments.layoutManager = LinearLayoutManager(this)
         vb.rvAppointments.adapter = adapter
+        vb.rvAppointments.addItemDecoration(
+            DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        )
 
-        // Observa lista de dominio
         vm.appointments.observe(this) { list ->
-            adapter.submit(list.sortedBy { it.start })
+            val now = Instant.now()
+            val sorted = list.sortedWith(
+                compareBy<com.example.dogs.domain.Appointment> { it.end.atZone(zoneMx).toInstant().isBefore(now) } // false (próximas) antes que true
+                    .thenBy { it.start }
+            )
+            adapter.submitList(sorted)
+
         }
 
-        // Carga inicial
         vm.init()
 
-        // Crear nueva cita
         vb.btnAdd.setOnClickListener { createOrEditDialog() }
     }
 

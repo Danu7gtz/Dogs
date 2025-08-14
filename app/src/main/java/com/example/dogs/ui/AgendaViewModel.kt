@@ -10,15 +10,11 @@ import com.example.dogs.notifications.NotificationUtils
 import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-
 
 class AgendaViewModel(app: Application) : AndroidViewModel(app) {
     private val repo = AppointmentRepository(app)
     val appointments: LiveData<List<Appointment>> = repo.data
     fun init() = viewModelScope.launch { repo.refresh().onFailure { it.printStackTrace() } }
-    // AgendaViewModel.kt
 
 
     fun add(a: Appointment) = viewModelScope.launch {

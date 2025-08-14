@@ -8,4 +8,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#1F1D1D</color>
     <color name="cremita">#FFF7EF</color>
+    <color name="notif_red">#D32F2F</color>
+    <color name="notif_black">#121212</color>
+    <color name="notif_accent_on_dark">#FFFFFF</color>
+    <color name="ui_red">#E53935</color>
+    <color name="ui_red_dark">#C62828</color>
+    <color name="ui_white">#FFFFFFFF</color>
+    <color name="ui_black">#0E0E0E</color>
+    <color name="ui_card_black">#141414</color>
+    <color name="ui_chip_black">#1A1A1A</color>
+    <color name="ui_field_fill">#26FFFFFF</color> <!-- blanco con 15% de opacidad -->
+    <color name="ui_yellow">#FFEB3B</color>
 </resources>

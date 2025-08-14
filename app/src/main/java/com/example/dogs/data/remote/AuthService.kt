@@ -21,5 +21,5 @@ interface AuthService {
     suspend fun login(
         @Query("email") email: String,
         @Query("password") password: String
-    ): Response<LoginResponse> // <-- Response<> para ver código y errorBody si falla
+    ): Response<LoginResponse>
 }

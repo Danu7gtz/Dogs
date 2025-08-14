@@ -10,8 +10,7 @@ class UiLoggingInterceptor : Interceptor {
         val req = chain.request()
         val reqInfo = buildString {
             append("➡️ ${req.method} ${req.url}\n")
-            // Si quieres headers:
-            // req.headers.forEach { h -> append("${h.first}: ${h.second}\n") }
+
             req.body?.let { body ->
                 try {
                     val buffer = Buffer()
@@ -24,7 +23,7 @@ class UiLoggingInterceptor : Interceptor {
         NetworkEvents.lastRequest.postValue(reqInfo)
 
         val res = chain.proceed(req)
-        val peek = res.peekBody(1024 * 1024) // hasta 1MB para debug
+        val peek = res.peekBody(1024 * 1024)
         val resInfo = "⬅️ HTTP ${res.code} ${res.message}\n${peek.string()}"
         NetworkEvents.lastResponse.postValue(resInfo)
 
