@@ -27,8 +27,7 @@ import java.util.Calendar
 import android.widget.CalendarView
 import androidx.core.view.isVisible
 import androidx.core.os.bundleOf
-
-
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class AgendaActivity : BaseAgendaActivity() {
@@ -44,6 +43,12 @@ class AgendaActivity : BaseAgendaActivity() {
         super.onCreate(savedInstanceState)
         vb = ActivityAgendaBinding.inflate(layoutInflater)
         setContentView(vb.root)
+
+
+        FirebaseMessaging.getInstance().subscribeToTopic("todos")
+            .addOnCompleteListener { task ->
+                // opcional: log/Toast de éxito o error
+            }
 
         NotificationUtils.createChannel(this)
 

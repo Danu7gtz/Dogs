@@ -14,6 +14,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import com.google.firebase.messaging.FirebaseMessaging
 
 /** Clase base con utilidades compartidas entre AgendaActivity y DayDetailActivity */
 abstract class BaseAgendaActivity : AppCompatActivity() {
@@ -27,6 +28,8 @@ abstract class BaseAgendaActivity : AppCompatActivity() {
      * @param existing cita existente (null = nueva)
      * @param defaultDayStartMillis día base para abrir los pickers (medianoche local)
      */
+
+
     protected fun createOrEditDialog(
         existing: Appointment? = null,
         defaultDayStartMillis: Long? = null
