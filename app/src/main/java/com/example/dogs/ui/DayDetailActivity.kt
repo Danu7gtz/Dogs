@@ -24,7 +24,6 @@ class DayDetailActivity : BaseAgendaActivity() {
     private lateinit var adapter: AppointmentAdapter
     private var dayStart: Long = 0L
     private var dayEnd: Long = 0L
-    val registroId = intent.getStringExtra("registroId")
 // úsalo para cargar el detalle
 
     override fun onCreate(savedInstanceState: Bundle?) {
