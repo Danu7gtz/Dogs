@@ -1,5 +1,5 @@
 package com.example.dogs.ui
-// imports típicos:
+
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -20,8 +20,10 @@ import com.example.dogs.data.TokenProvider
 import com.example.dogs.databinding.ActivityLoginBinding
 import com.example.dogs.net.NetworkEvents
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlin.math.max
 
 class LoginActivity : AppCompatActivity() {
+
     private lateinit var vb: ActivityLoginBinding
     private lateinit var vm: LoginViewModel
 
@@ -32,6 +34,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // --- FCM token (opcional)
         FirebaseMessaging.getInstance().token
             .addOnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -40,49 +43,57 @@ class LoginActivity : AppCompatActivity() {
                 }
                 val token = task.result
                 Log.d("FCM", "Token: $token")
-                // Opcional: mostrarlo en pantalla para copiar
                 println("Tu token de FCM es: $token")
             }
 
-
+        // --- Ajustes de ventana: clave para que el teclado NO tape la card
         WindowCompat.setDecorFitsSystemWindows(window, true)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
+        // --- ViewBinding (una sola vez)
         vb = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(vb.root)
 
+        // --- Insets del teclado: añade paddingBottom dinámico al scroll
         ViewCompat.setOnApplyWindowInsetsListener(vb.scrollLogin) { v, insets ->
             val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
-            val base =  v.paddingBottom
-            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, maxOf(base, ime.bottom))
+            val base = v.paddingBottom
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, max(base, ime.bottom))
             insets
         }
 
+        // --- Auto-scroll al enfocar campos
         vb.etEmail.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) vb.scrollLogin.post { vb.scrollLogin.smoothScrollTo(0, vb.etEmail.top) }
+            if (hasFocus) vb.scrollLogin.post {
+                vb.scrollLogin.smoothScrollTo(0, vb.etEmail.top)
+            }
         }
         vb.etPassword.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) vb.scrollLogin.post { vb.scrollLogin.smoothScrollTo(0, vb.etPassword.top) }
+            if (hasFocus) vb.scrollLogin.post {
+                vb.scrollLogin.smoothScrollTo(0, vb.etPassword.top)
+            }
         }
 
-
-        vb = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(vb.root)
-
+        // --- ViewModel
         vm = ViewModelProvider(this)[LoginViewModel::class.java]
 
+        // --- Permiso de notificaciones (Android 13+)
         askNotificationPermissionIfNeeded()
 
+        // --- Observers de estado de login
         vm.state.observe(this) { st ->
             when (st) {
-                is LoginState.Idle -> { /* UI idle */ }
+                is LoginState.Idle -> { /* nada */ }
                 is LoginState.Loading -> {
                     Toast.makeText(this, "Iniciando sesión...", Toast.LENGTH_SHORT).show()
                 }
                 is LoginState.Success -> {
-                    // guarda token y navega
-                    TokenProvider(this).saveToken(st.data.token)
+                    // Guarda el token y calcula la expiración a 24h desde ahora
+                    val tp = TokenProvider(this)
+                    tp.saveToken(st.data.token) // <- este método ya se encarga de guardar token + expiración
+
                     Toast.makeText(this, "Login OK", Toast.LENGTH_SHORT).show()
+
                     startActivity(Intent(this, AgendaActivity::class.java))
                     finish()
                 }
@@ -91,14 +102,15 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
-
+        // --- Logs de red (opcionales)
         NetworkEvents.lastRequest.observe(this) { req ->
-            android.util.Log.d("NET_REQ", req)
+            Log.d("NET_REQ", req)
         }
         NetworkEvents.lastResponse.observe(this) { res ->
-            android.util.Log.d("NET_RES", res)
+            Log.d("NET_RES", res)
         }
 
+        // --- Acción del botón Login
         vb.btnLogin.setOnClickListener {
             val email = vb.etEmail.text.toString().trim()
             val pass  = vb.etPassword.text.toString().trim()

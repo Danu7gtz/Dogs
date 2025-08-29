@@ -13,12 +13,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
+    // --- Gson consistente (ISO_LOCAL_DATE_TIME, sin zona) ---
     private val gson by lazy {
         val iso = DateTimeFormatter.ISO_LOCAL_DATE_TIME
-
         GsonBuilder()
             .registerTypeAdapter(
                 LocalDateTime::class.java,
@@ -31,10 +32,17 @@ object ApiClient {
             .create()
     }
 
+    // --- Cliente para Auth (sin header Authorization) ---
     fun auth(baseUrl: String = "https://crm.solbintec.com/"): AuthService {
-        val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+        val logger = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+            // Evita imprimir Authorization por si en el futuro lo agregas
+            redactHeader("Authorization")
+        }
         val ok = OkHttpClient.Builder()
             .addInterceptor(logger)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
             .build()
 
         return Retrofit.Builder()
@@ -45,26 +53,25 @@ object ApiClient {
             .create(AuthService::class.java)
     }
 
+    // --- Cliente para citas (adjunta Authorization solo si la sesión es válida) ---
     fun appointments(context: Context, baseUrl: String = "https://crm.solbintec.com/"): AppointmentService {
-        val tokenProvider = TokenProvider(context)
+        val tokenProvider = TokenProvider(context.applicationContext)
 
-        val authInterceptor = Interceptor { chain ->
-            val req = chain.request().newBuilder().apply {
-                tokenProvider.getToken()?.let { header("Authorization", "Bearer $it") }
-            }.build()
-            chain.proceed(req)
+        val authInterceptor = AuthInterceptor(tokenProvider)
+
+        val logger = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+            redactHeader("Authorization") // evita loguear el token
         }
 
-        val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
-
         val ok = OkHttpClient.Builder()
-            .addInterceptor(authInterceptor)
+            .addInterceptor(authInterceptor)   // <-- usa tu clase aquí
             .addInterceptor(logger)
             .build()
 
         return Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson)) // usa el mismo gson que en auth()
             .client(ok)
             .build()
             .create(AppointmentService::class.java)

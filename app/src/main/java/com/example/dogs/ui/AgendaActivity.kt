@@ -41,6 +41,17 @@ class AgendaActivity : BaseAgendaActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val tokenProvider = com.example.dogs.data.TokenProvider(this)
+        if (!tokenProvider.isSessionValid()) {
+            // Redirige a login y corta aquí
+            startActivity(Intent(this, LoginActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            })
+            finish()
+            return
+        }
+
         vb = ActivityAgendaBinding.inflate(layoutInflater)
         setContentView(vb.root)
 
