@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="calendar_card_bg">#FF1E1E1E</color>
-    <color name="calendar_bg">#FF121212</color>
-    <color name="calendar_text_primary">#FFFFFFFF</color>
-    <color name="calendar_text_secondary">#B3FFFFFF</color>
-    <color name="calendar_selected_bg">#33E53935</color>
-    <color name="calendar_stroke">#33FFFFFF</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#1F1D1D</color>
+    <color name="cremita">#FFF7EF</color>
+    <color name="notif_red">#D32F2F</color>
+    <color name="notif_black">#121212</color>
+    <color name="notif_accent_on_dark">#FFFFFF</color>
+    <color name="ui_red">#E53935</color>
+    <color name="ui_red_dark">#C62828</color>
+    <color name="ui_white">#FFFFFFFF</color>
+    <color name="ui_black">#0E0E0E</color>
+    <color name="ui_card_black">#141414</color>
+    <color name="ui_chip_black">#1A1A1A</color>
+    <color name="ui_field_fill">#26FFFFFF</color> <!-- blanco con 15% de opacidad -->
+    <color name="ui_yellow">#FFEB3B</color>
+    <color name="calendar_stroke">#22000000</color>       <!-- borde -->
+    <!-- Paleta vino -->
+    <color name="wine_900">#4A0E1F</color>
+    <color name="wine_800">#6A0F26</color>
+    <color name="wine_700">#8C1230</color>
+    <color name="wine_600">#B0173B</color>
+    <color name="wine_500">#D51C46</color>
+    <color name="wine_300">#F06A8A</color>
+    <color name="wine_100">#FFE1E8</color>
+    <color name="calendar_card_bg_agenda">#ABA6A6</color>
+    <color name="calendar_card_bg">#262424</color>        <!-- fondo negro -->
+    <color name="calendar_text_primary">#FFFFFFFF</color>   <!-- fechas actuales: blanco -->
+    <color name="calendar_text_secondary">#B3FFFFFF</color> <!-- fuera de mes/semana: 70% blanco -->
+    <color name="calendar_selected_bg">#22E53935</color>    <!-- igual que claro si quieres -->
+
+
+
 </resources>

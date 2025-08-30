@@ -1,16 +1,28 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- res/values/themes.xml -->
+    <!-- Tema oscuro -->
     <style name="Theme.Dogs" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/cremita</item>
-        <item name="colorOnPrimary">#000000</item>
+        <!-- Misma marca en oscuro -->
+        <item name="colorPrimary">@color/notif_red</item>
+        <item name="colorPrimaryVariant">@color/ui_red_dark</item>
+        <item name="colorOnPrimary">@color/ui_white</item>
 
-        <!-- Overlay específico para la ActionBar -->
+        <!-- Secundario -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Superficies / texto en superficies -->
+        <item name="colorSurface">@color/ui_card_black</item>           <!-- superficie oscura -->
+        <item name="colorOnSurface">@color/ui_white</item>              <!-- texto claro -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
         <item name="actionBarTheme">@style/ThemeOverlay.Dogs.ActionBar</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
     </style>
 
+    <!-- Texto de ActionBar en oscuro -->
     <style name="ThemeOverlay.Dogs.ActionBar" parent="">
-        <!-- Estos controlan el color del título/subtítulo de la ActionBar -->
-        <item name="android:textColorPrimary">#000000</item>
-        <item name="android:textColorSecondary">#000000</item>
+        <item name="android:textColorPrimary">@color/ui_white</item>
+        <item name="android:textColorSecondary">@color/ui_white</item>
     </style>
 </resources>

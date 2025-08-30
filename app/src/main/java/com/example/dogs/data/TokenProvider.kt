@@ -2,14 +2,13 @@ package com.example.dogs.data
 
 import android.content.Context
 
-// com.example.dogs.data.TokenProvider
 class TokenProvider(ctx: Context) {
     private val prefs = ctx.getSharedPreferences("auth", Context.MODE_PRIVATE)
 
     private companion object {
         const val KEY_TOKEN = "token"
         const val KEY_EXPIRES_AT = "expires_at_epoch"
-        const val DAY_MS = 24 * 60 * 60 * 1000L
+        const val DAY_MS =60 * 60 * 1000L //24 * 60 * 60 * 1000L
     }
 
     fun saveToken(token: String, expiresAtMillis: Long? = null) {
@@ -22,8 +21,12 @@ class TokenProvider(ctx: Context) {
 
     fun getRawToken(): String? = prefs.getString(KEY_TOKEN, null)
     fun getExpiresAt(): Long = prefs.getLong(KEY_EXPIRES_AT, 0L)
-    fun isSessionValid(now: Long = System.currentTimeMillis()): Boolean =
-        (getRawToken()?.isNotBlank() == true) && getExpiresAt() > now
+
+    fun isSessionValid(now: Long = System.currentTimeMillis()): Boolean {
+        val valid = (getRawToken()?.isNotBlank() == true) && getExpiresAt() > now
+        if (!valid) clear()
+        return valid
+    }
 
     fun clear() = prefs.edit().clear().apply()
 }

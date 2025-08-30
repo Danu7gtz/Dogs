@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.google.services)
+    id("com.google.gms.google-services")
+
 }
 
 android {
@@ -45,10 +46,8 @@ android {
 }
 
 dependencies {
-    // BOM para alinear versiones Firebase
-    implementation(platform(libs.firebase.bom))
-    // Mensajería FCM
-    implementation(libs.firebase.messaging)
+    implementation(platform("com.google.firebase:firebase-bom:34.1.0"))
+    implementation("com.google.firebase:firebase-messaging")
     // Necesario por el desugaring (java.time)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.2")
 

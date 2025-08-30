@@ -1,207 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_screen_red">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <!-- Header degradado vino (mismo del resto de pantallas) -->
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="220dp"
+        android:background="@drawable/bg_header_wine" />
 
-        <!-- Tarjeta negra con imagen de perro y chip "Horarios disponibles" -->
-        <com.google.android.material.card.MaterialCardView
+    <!-- Fondo decorativo (opcional) -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/fondo_dogs"
+        android:scaleType="centerCrop"
+        android:alpha="0.12"
+        android:contentDescription="@string/app_name" />
+
+    <!-- Contenido scroll -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardBackgroundColor="@color/ui_card_black"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="6dp"
-            app:cardUseCompatPadding="true">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <FrameLayout
+            <!-- Tarjeta con imagen + chip -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="180dp">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="24dp"
+                app:cardUseCompatPadding="true"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="@color/calendar_card_bg">
 
-                <ImageView
-                    android:id="@+id/ivDog"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/logo_dog_two" /> <!-- CAMBIA AQUÍ tu perro -->
+                    android:layout_height="180dp">
+
+                    <ImageView
+                        android:id="@+id/ivDog"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/logo_dog_title" />
+
+                    <TextView
+                        android:id="@+id/tvChipSchedule"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:layout_marginBottom="12dp"
+                        android:background="@drawable/bg_chip_white"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="6dp"
+                        android:text="Horarios disponibles"
+                        android:textColor="@color/ui_black"
+                        android:textStyle="bold" />
+                </FrameLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Campos -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Cliente"
+                app:boxBackgroundColor="@color/ui_field_fill"
+                app:boxCornerRadiusBottomEnd="14dp"
+                app:boxCornerRadiusBottomStart="14dp"
+                app:boxCornerRadiusTopEnd="14dp"
+                app:boxCornerRadiusTopStart="14dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etClient"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Dirección"
+                app:boxBackgroundColor="@color/ui_field_fill"
+                app:boxCornerRadiusBottomEnd="14dp"
+                app:boxCornerRadiusBottomStart="14dp"
+                app:boxCornerRadiusTopEnd="14dp"
+                app:boxCornerRadiusTopStart="14dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Teléfono"
+                app:boxBackgroundColor="@color/ui_field_fill"
+                app:boxCornerRadiusBottomEnd="14dp"
+                app:boxCornerRadiusBottomStart="14dp"
+                app:boxCornerRadiusTopEnd="14dp"
+                app:boxCornerRadiusTopStart="14dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Chips de hora -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnStart"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="Elegir inicio"
+                    android:textAllCaps="false"
+                    android:textColor="@color/ui_white"
+                    app:backgroundTint="@color/ui_chip_black"
+                    app:cornerRadius="14dp"
+                    app:icon="@drawable/ic_calendar"
+                    app:iconTint="@color/ui_white"
+                    app:strokeColor="@color/ui_red"
+                    app:strokeWidth="1dp" />
+
+                <Space
+                    android:layout_width="12dp"
+                    android:layout_height="1dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEnd"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="Elegir fin"
+                    android:textAllCaps="false"
+                    android:textColor="@color/ui_white"
+                    app:backgroundTint="@color/ui_chip_black"
+                    app:cornerRadius="14dp"
+                    app:icon="@drawable/ic_calendar"
+                    app:iconTint="@color/ui_white"
+                    app:strokeColor="@color/ui_red"
+                    app:strokeWidth="1dp" />
+            </LinearLayout>
+
+            <!-- Notas -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Notas"
+                app:boxBackgroundColor="@color/ui_field_fill"
+                app:boxCornerRadiusBottomEnd="14dp"
+                app:boxCornerRadiusBottomStart="14dp"
+                app:boxCornerRadiusTopEnd="14dp"
+                app:boxCornerRadiusTopStart="14dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minLines="3" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Precio + Confirmar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvChipSchedule"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|bottom"
-                    android:layout_marginBottom="12dp"
-                    android:background="@drawable/bg_chip_white"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="6dp"
-                    android:text="Horarios disponibles"
+                    android:id="@+id/tvPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="12dp"
+                    android:background="@drawable/bg_chip_yellow"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="$600 MXN"
                     android:textColor="@color/ui_black"
                     android:textStyle="bold" />
-            </FrameLayout>
-        </com.google.android.material.card.MaterialCardView>
 
-        <!-- Campos con estilo relleno -->
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Cliente"
-            app:boxBackgroundColor="@color/ui_field_fill"
-            app:boxCornerRadiusBottomEnd="14dp"
-            app:boxCornerRadiusBottomStart="14dp"
-            app:boxCornerRadiusTopEnd="14dp"
-            app:boxCornerRadiusTopStart="14dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etClient"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="Dirección"
-            app:boxBackgroundColor="@color/ui_field_fill"
-            app:boxCornerRadiusBottomEnd="14dp"
-            app:boxCornerRadiusBottomStart="14dp"
-            app:boxCornerRadiusTopEnd="14dp"
-            app:boxCornerRadiusTopStart="14dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="Teléfono"
-            app:boxBackgroundColor="@color/ui_field_fill"
-            app:boxCornerRadiusBottomEnd="14dp"
-            app:boxCornerRadiusBottomStart="14dp"
-            app:boxCornerRadiusTopEnd="14dp"
-            app:boxCornerRadiusTopStart="14dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Botones chips negros con borde rojo -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnStart"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="Elegir inicio"
-                android:textAllCaps="false"
-                android:textColor="@color/ui_white"
-                app:backgroundTint="@color/ui_chip_black"
-                app:cornerRadius="14dp"
-                app:icon="@drawable/ic_calendar"
-                app:iconTint="@color/ui_white"
-                app:strokeColor="@color/ui_red"
-                app:strokeWidth="1dp" />
-
-            <Space
-                android:layout_width="12dp"
-                android:layout_height="1dp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnEnd"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="Elegir fin"
-                android:textAllCaps="false"
-                android:textColor="@color/ui_white"
-                app:backgroundTint="@color/ui_chip_black"
-                app:cornerRadius="14dp"
-                app:icon="@drawable/ic_calendar"
-                app:iconTint="@color/ui_white"
-                app:strokeColor="@color/ui_red"
-                app:strokeWidth="1dp" />
+            </LinearLayout>
         </LinearLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="Notas"
-            app:boxBackgroundColor="@color/ui_field_fill"
-            app:boxCornerRadiusBottomEnd="14dp"
-            app:boxCornerRadiusBottomStart="14dp"
-            app:boxCornerRadiusTopEnd="14dp"
-            app:boxCornerRadiusTopStart="14dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etNotes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minLines="3" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Fila precio + Confirmar -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginRight="12dp"
-                android:background="@drawable/bg_chip_yellow"
-                android:gravity="center"
-                android:paddingHorizontal="14dp"
-                android:text="$600 MXN"
-                android:textColor="@color/ui_black"
-                android:textStyle="bold" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnConfirm"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="Confirmar"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                app:icon="@drawable/ic_paw"
-                app:iconPadding="8dp"
-                app:iconTint="@color/ui_white"
-                app:backgroundTint="@color/ui_red"
-                app:cornerRadius="18dp"
-                android:textColor="@color/ui_white"/>
-        </LinearLayout>
-
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

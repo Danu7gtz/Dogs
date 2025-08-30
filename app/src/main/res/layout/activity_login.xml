@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Fondo fijo (no intercepta eventos) -->
+    <!-- Header degradado rojo/vino con borde inferior redondeado -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:background="@drawable/bg_header_wine"/>
+
+    <!-- Fondo opcional detrás (como tenías) -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -11,9 +18,10 @@
         android:scaleType="centerCrop"
         android:contentDescription="@string/app_name"
         android:clickable="false"
-        android:focusable="false" />
+        android:focusable="false"
+        android:alpha="0.15"/>
 
-    <!-- ÚNICO scroll que envuelve logo + formulario -->
+    <!-- ÚNICO scroll (mismo id) -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_login"
         android:layout_width="match_parent"
@@ -23,7 +31,6 @@
         android:paddingBottom="32dp"
         android:overScrollMode="always">
 
-        <!-- Hijo único del scroll -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,59 +38,158 @@
             android:gravity="center_horizontal"
             android:padding="24dp">
 
-            <!-- Logo -->
+            <!-- Logo (mismo id) -->
             <ImageView
                 android:id="@+id/imgLogo"
-                android:layout_width="300dp"
-                android:layout_height="280dp"
-                android:src="@drawable/logo_perros"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:src="@drawable/logo_dog_title"
                 android:contentDescription="@string/app_name"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="58dp"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true" />
 
-            <!-- Campos -->
-            <EditText
-                android:id="@+id/etEmail"
+            <!-- Tarjeta blanca con sombra que contiene el formulario -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/bg_input_gray_rounded"
-                android:hint="Correo electrónico"
-                android:inputType="textEmailAddress"
-                android:textColor="#000000"
-                android:textColorHint="#66000000"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-28dp"
+                app:cardCornerRadius="24dp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="@android:color/white"
+                app:strokeWidth="0dp"
+                app:cardElevation="8dp">
 
-            <EditText
-                android:id="@+id/etPassword"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_input_gray_rounded"
-                android:hint="Contraseña"
-                android:inputType="textPassword"
-                android:textColor="#000000"
-                android:textColorHint="#66000000"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-            <!-- Botón -->
-            <Button
-                android:id="@+id/btnLogin"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                android:text="Entrar"
-                android:textAllCaps="false"
-                android:textColor="#000000"
-                android:background="@drawable/bg_button_white_rounded"
-                android:backgroundTint="@null" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Iniciar sesión en la cuenta"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:textColor="#1A1A1A"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="12dp"/>
 
-            <!-- Espacio inferior para teclado -->
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="24dp" />
+                    <!-- Email (mismo id) -->
+                    <EditText
+                        android:id="@+id/etEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_input_white_outline"
+                        android:hint="Correo electrónico"
+                        android:inputType="textEmailAddress"
+                        android:textColor="#000000"
+                        android:textColorHint="#66000000"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp" />
+                    <!-- Password (mismo id) -->
+                    <EditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/bg_input_white_outline"
+                        android:hint="Contraseña"
+                        android:inputType="textPassword"
+                        android:textColor="#000000"
+                        android:textColorHint="#66000000"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="¿Olvidaste tu contraseña?"
+                        android:textSize="12sp"
+                        android:textColor="@color/wine_600"
+                        android:layout_marginTop="8dp" />
+
+                    <!-- Botón (mismo id) -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="16dp"
+                        android:text="ENTRAR"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white"
+                        app:cornerRadius="24dp"
+                        app:backgroundTint="@color/wine_700" />
+
+                    <!-- Separador “OR” -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1"
+                            android:background="#14000000"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="  O  "
+                            android:textColor="#7A7A7A"
+                            android:textStyle="bold"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1"
+                            android:background="#14000000"/>
+                    </LinearLayout>
+
+                    <!-- Redes (placeholders) -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_paw"
+                            android:contentDescription="@string/app_name"
+                            android:layout_marginEnd="16dp"/>
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_paw"
+                            android:contentDescription="@string/app_name"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No tienes cuenta?"
+                android:textColor="#2E2E2E"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Registrate"
+                android:textStyle="bold"
+                android:textColor="@color/wine_700"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </FrameLayout>

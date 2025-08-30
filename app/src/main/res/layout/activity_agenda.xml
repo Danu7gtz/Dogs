@@ -1,62 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:background="@color/calendar_card_bg_agenda"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/fondo_dogs">
+    android:layout_height="match_parent">
 
-    <!-- Calendario mensual arriba -->
-    <com.google.android.material.card.MaterialCardView
+    <!-- Header degradado vino -->
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="24dp"
-        app:cardUseCompatPadding="true"
-        app:cardElevation="6dp"
-        app:cardBackgroundColor="@android:color/transparent">
+        android:layout_height="260dp"
+        android:background="@drawable/bg_header_wine" />
 
-        <CalendarView
-            android:id="@+id/calendarView"
+    <!-- Fondo decorativo -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/fondo_dogs"
+        android:scaleType="centerCrop"
+        android:alpha="0.15"
+        android:contentDescription="@string/app_name" />
+
+    <!-- Contenido scrollable -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="1dp">
+
+        <!-- 🔹 Nuevo header con logo + título -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_calendar"
-            android:layout_margin="8dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="30dp"
+            android:paddingEnd="24dp"
+            android:layout_marginTop="35dp">
 
-            android:firstDayOfWeek="2"
-            android:dateTextAppearance="@style/CalendarDateText"
-            android:weekDayTextAppearance="@style/CalendarWeekdayText"
+            <ImageView
+                android:id="@+id/imgAgendaLogo"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_paw"
+                android:contentDescription="@string/app_name"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:tint="?attr/colorOnPrimary" />
 
-            android:focusedMonthDateColor="@color/calendar_text_primary"
-            android:unfocusedMonthDateColor="@color/calendar_text_secondary"
-            android:weekNumberColor="@color/calendar_text_secondary"
-            android:selectedWeekBackgroundColor="@color/calendar_selected_bg" />
+            <TextView
+                android:id="@+id/tvAgendaTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="Agenda"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnSurface"/>
+        </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+        <!-- Calendario dentro de tarjeta -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            app:cardCornerRadius="24dp"
+            android:layout_marginTop="1dp"
+            app:cardElevation="8dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/calendar_card_bg">
 
-    <!-- Lista de citas (ID intacto) -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvAppointments"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="12dp"
-        android:clipToPadding="false"
-        android:layout_marginTop="4dp"/>
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:firstDayOfWeek="2"
+                android:background="@color/calendar_card_bg"
+                android:dateTextAppearance="@style/CalendarDateText"
+                android:weekDayTextAppearance="@style/CalendarWeekdayText"
+                android:focusedMonthDateColor="@color/calendar_text_primary"
+                android:unfocusedMonthDateColor="@color/calendar_text_secondary"
+                android:weekNumberColor="@color/calendar_text_secondary"
+                android:selectedWeekBackgroundColor="@color/calendar_selected_bg"/>
+        </com.google.android.material.card.MaterialCardView>
 
-    <!-- Botón (ID intacto) -->
-    <Button
-        android:id="@+id/btnAdd"
-        android:text="Agregar cita"
-        android:textColor="#FFFFFF"
-        android:textAllCaps="false"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/btn_red"
-        android:backgroundTint="@null"
-        app:backgroundTint="@null"/>
-</LinearLayout>
+        <!-- Lista de citas -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAppointments"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingHorizontal="22dp"
+            android:paddingTop="4dp"/>
+        <!-- Botón flotante tipo primario -->
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginVertical="16dp"
+            android:text="Agregar cita"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:background="@drawable/bg_button_wine"
+            android:backgroundTint="@null"/>
+    </LinearLayout>
+</FrameLayout>

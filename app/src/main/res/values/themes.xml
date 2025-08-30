@@ -1,16 +1,31 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Tema claro -->
     <style name="Theme.Dogs" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
+        <!-- Marca -->
         <item name="colorPrimary">@color/notif_red</item>
-        <item name="colorPrimaryVariant">@color/notif_red</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
+        <item name="colorPrimaryVariant">@color/ui_red_dark</item>
+        <item name="colorOnPrimary">@color/ui_white</item>
+
+        <!-- Secundario -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+
+        <!-- Superficies / texto en superficies -->
+        <item name="colorSurface">@color/calendar_card_bg</item>        <!-- blanco en claro -->
+        <item name="colorOnSurface">@color/calendar_bg</item> <!-- negro en claro -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
+        <!-- Overlay para ActionBar (si la usas) -->
+        <item name="actionBarTheme">@style/ThemeOverlay.Dogs.ActionBar</item>
+
+        <!-- Opcional: evita auto-darkening en drawables (API 29+) -->
+        <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
+    </style>
+
+    <!-- Texto de ActionBar en claro -->
+    <style name="ThemeOverlay.Dogs.ActionBar" parent="">
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColorSecondary">#000000</item>
     </style>
 </resources>

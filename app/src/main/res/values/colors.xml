@@ -19,10 +19,20 @@
     <color name="ui_chip_black">#1A1A1A</color>
     <color name="ui_field_fill">#26FFFFFF</color> <!-- blanco con 15% de opacidad -->
     <color name="ui_yellow">#FFEB3B</color>
-    <color name="calendar_card_bg">#FFFFFFFF</color>      <!-- fondo tarjeta -->
+    <color name="calendar_card_bg_agenda">#ABA6A6</color>
     <color name="calendar_bg">#FFF5F5F5</color>           <!-- fondo interno -->
-    <color name="calendar_text_primary">#FF000000</color> <!-- fechas actuales -->
-    <color name="calendar_text_secondary">#99000000</color> <!-- fuera de mes / semana -->
+
     <color name="calendar_selected_bg">#22E53935</color>  <!-- selección suave -->
     <color name="calendar_stroke">#22000000</color>       <!-- borde -->
+    <!-- Paleta vino -->
+    <color name="wine_900">#4A0E1F</color>
+    <color name="wine_800">#6A0F26</color>
+    <color name="wine_700">#8C1230</color>
+    <color name="wine_600">#B0173B</color>
+    <color name="wine_500">#D51C46</color>
+    <color name="wine_300">#F06A8A</color>
+    <color name="wine_100">#FFE1E8</color>
+    <color name="calendar_card_bg">#FFFFFFFF</color>
+    <color name="calendar_text_primary">#FF000000</color>
+    <color name="calendar_text_secondary">#99000000</color>
 </resources>
